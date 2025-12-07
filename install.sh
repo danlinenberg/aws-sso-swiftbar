@@ -86,18 +86,18 @@ read -p "Choose [1/2] (default: 1): " INSTALL_METHOD
 INSTALL_METHOD=${INSTALL_METHOD:-1}
 
 # Remove existing files/symlinks first
-rm -f "$PLUGIN_DIR/aws-sso-status.10s.py" "$PLUGIN_DIR/login.sh"
+rm -f "$PLUGIN_DIR/aws-sso-status.1m.py" "$PLUGIN_DIR/login.sh"
 
 if [ "$INSTALL_METHOD" == "1" ]; then
     # Symlink
-    ln -sf "$SCRIPT_DIR/aws-sso-status.10s.py" "$PLUGIN_DIR/"
+    ln -sf "$SCRIPT_DIR/aws-sso-status.1m.py" "$PLUGIN_DIR/"
     ln -sf "$SCRIPT_DIR/login.sh" "$PLUGIN_DIR/"
     print_success "Files symlinked to $PLUGIN_DIR"
 else
     # Copy
-    cp "$SCRIPT_DIR/aws-sso-status.10s.py" "$PLUGIN_DIR/"
+    cp "$SCRIPT_DIR/aws-sso-status.1m.py" "$PLUGIN_DIR/"
     cp "$SCRIPT_DIR/login.sh" "$PLUGIN_DIR/"
-    chmod +x "$PLUGIN_DIR/aws-sso-status.10s.py"
+    chmod +x "$PLUGIN_DIR/aws-sso-status.1m.py"
     chmod +x "$PLUGIN_DIR/login.sh"
     print_success "Files copied to $PLUGIN_DIR"
 fi
@@ -139,7 +139,7 @@ sleep 1
 # Test the plugin
 echo ""
 print_info "Testing plugin..."
-if "$PLUGIN_DIR/aws-sso-status.10s.py" > /dev/null 2>&1; then
+if "$PLUGIN_DIR/aws-sso-status.1m.py" > /dev/null 2>&1; then
     print_success "Plugin test successful"
 else
     print_error "Plugin test failed"
@@ -172,6 +172,6 @@ echo "  • If the icon doesn't appear, restart SwiftBar:"
 echo "    killall SwiftBar && open -a SwiftBar"
 echo ""
 echo "  • To test the plugin manually:"
-echo "    $PLUGIN_DIR/aws-sso-status.10s.py"
+echo "    $PLUGIN_DIR/aws-sso-status.1m.py"
 echo ""
 echo "Enjoy! 🎉"

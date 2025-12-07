@@ -4,7 +4,7 @@ A macOS menu bar plugin that shows your AWS SSO session status and provides one-
 
 ## Features
 
-- **Real-time session monitoring**: Shows time remaining in menu bar (updates every 10 seconds)
+- **Real-time session monitoring**: Shows time remaining in menu bar (updates every minute)
 - **Color-coded status**: Green (>2hrs), Yellow (30min-2hrs), Red (<30min/expired)
 - **Smart refresh button**: Automatically disabled when session is healthy (>2hrs remaining)
 - **Multi-profile support**: Switch between AWS profiles (prod, backend, dev, etc.)
@@ -78,11 +78,11 @@ mkdir -p ~/.swiftbar-plugins
 
 ```bash
 # Option A: Symlink (changes in repo reflect immediately)
-ln -sf "$(pwd)/aws-sso-status.10s.py" ~/.swiftbar-plugins/
+ln -sf "$(pwd)/aws-sso-status.1m.py" ~/.swiftbar-plugins/
 ln -sf "$(pwd)/login.sh" ~/.swiftbar-plugins/
 
 # Option B: Copy (standalone installation)
-cp aws-sso-status.10s.py login.sh ~/.swiftbar-plugins/
+cp aws-sso-status.1m.py login.sh ~/.swiftbar-plugins/
 chmod +x ~/.swiftbar-plugins/*.{py,sh}
 ```
 
@@ -169,19 +169,22 @@ Click **🌐 Open AWS Console** to open your AWS SSO start URL in your browser.
 
 ### Update Interval
 
-The plugin refreshes every 10 seconds. To change this, rename the file:
+The plugin refreshes every minute. To change this, rename the file:
 
 ```bash
-# For 30-second updates:
-mv aws-sso-status.10s.py aws-sso-status.30s.py
+# For 10-second updates:
+mv aws-sso-status.1m.py aws-sso-status.10s.py
 
-# For 5-second updates:
-mv aws-sso-status.10s.py aws-sso-status.5s.py
+# For 30-second updates:
+mv aws-sso-status.1m.py aws-sso-status.30s.py
+
+# For 5-minute updates:
+mv aws-sso-status.1m.py aws-sso-status.5m.py
 ```
 
 ### Color Thresholds
 
-Edit `aws-sso-status.10s.py` and modify the `get_color()` function:
+Edit `aws-sso-status.1m.py` and modify the `get_color()` function:
 
 ```python
 def get_color(seconds_remaining):
@@ -197,7 +200,7 @@ def get_color(seconds_remaining):
 
 ### Disable Button Threshold
 
-Edit `aws-sso-status.10s.py` and find the section that disables the button:
+Edit `aws-sso-status.1m.py` and find the section that disables the button:
 
 ```python
 else:  # More than 2 hours remaining - change this threshold
@@ -211,8 +214,8 @@ else:  # More than 2 hours remaining - change this threshold
 
 1. Check SwiftBar is running: `ps aux | grep SwiftBar`
 2. Verify plugin folder: SwiftBar → Preferences → Plugin Folder
-3. Check file is executable: `ls -la ~/.swiftbar-plugins/aws-sso-status.10s.py`
-4. Test plugin directly: `~/.swiftbar-plugins/aws-sso-status.10s.py`
+3. Check file is executable: `ls -la ~/.swiftbar-plugins/aws-sso-status.1m.py`
+4. Test plugin directly: `~/.swiftbar-plugins/aws-sso-status.1m.py`
 
 ### Refresh button doesn't work
 
@@ -223,11 +226,11 @@ else:  # More than 2 hours remaining - change this threshold
 
 ### Time not updating after login
 
-Wait 10 seconds for the plugin to refresh, or manually refresh SwiftBar.
+Wait a minute for the plugin to refresh, or manually refresh SwiftBar.
 
 ### Profile switching doesn't work
 
-Check that the `refresh=true` parameter is in the profile buttons. The menu bar should update within 10 seconds of switching profiles.
+Check that the `refresh=true` parameter is in the profile buttons. The menu bar should update within a minute of switching profiles.
 
 ## File Structure
 
@@ -235,7 +238,7 @@ Check that the `refresh=true` parameter is in the profile buttons. The menu bar 
 aws-sso-swiftbar/
 ├── README.md                    # This file
 ├── install.sh                   # One-command installer
-├── aws-sso-status.10s.py        # Main plugin (Python)
+├── aws-sso-status.1m.py        # Main plugin (Python)
 └── login.sh                     # Generic login helper for all profiles
 ```
 
