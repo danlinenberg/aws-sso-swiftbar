@@ -38,7 +38,9 @@ The installer will:
 - ✅ Configure SwiftBar
 - ✅ Test the installation
 
-That's it! Look for the ☁️ icon in your menu bar.
+**After installation:** Click the SwiftBar icon → **Enable All** to activate the plugin.
+
+Then look for the ☁️ icon in your menu bar!
 
 ---
 
@@ -92,7 +94,16 @@ chmod +x ~/.swiftbar-plugins/*.{py,sh}
 4. Set plugin folder to: `~/.swiftbar-plugins` (or the full path: `/Users/YOUR_USERNAME/.swiftbar-plugins`)
 5. Click **Refresh All**
 
-### 6. Verify installation
+### 6. Enable the plugin
+
+**Important:** After installing, you must enable the plugin:
+
+1. Click the **SwiftBar icon** in your menu bar
+2. Select **Enable All**
+
+This activates the plugin and makes the `☁️` icon appear.
+
+### 7. Verify installation
 
 You should now see a `☁️` icon in your menu bar showing your AWS SSO session time.
 
