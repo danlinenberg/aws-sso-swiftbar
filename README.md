@@ -13,7 +13,7 @@ A macOS menu bar plugin that shows your AWS SSO session status and provides one-
 
 ## Screenshots
 
-Menu bar display: `☁️ 7h` (color-coded based on time remaining)
+<img width="271" height="345" alt="image" src="https://github.com/user-attachments/assets/d727f377-7515-479e-a25f-19048d01f258" />
 
 Dropdown menu shows:
 - Session status and expiration time
