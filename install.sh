@@ -85,6 +85,9 @@ echo "  2) Copy (standalone installation)"
 read -p "Choose [1/2] (default: 1): " INSTALL_METHOD
 INSTALL_METHOD=${INSTALL_METHOD:-1}
 
+# Remove existing files/symlinks first
+rm -f "$PLUGIN_DIR/aws-sso-status.10s.py" "$PLUGIN_DIR/login.sh"
+
 if [ "$INSTALL_METHOD" == "1" ]; then
     # Symlink
     ln -sf "$SCRIPT_DIR/aws-sso-status.10s.py" "$PLUGIN_DIR/"
