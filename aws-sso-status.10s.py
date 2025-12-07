@@ -164,7 +164,7 @@ def main():
         print("☁️ No Session | color=red")
         print("---")
         print(f"No AWS SSO session found for '{profile}'")
-        login_script = "/Users/dan/dev/private/aws-sso-swiftbar/login.sh"
+        login_script = Path(__file__).parent / "login.sh"
         print(f"🔐 Login to AWS SSO | bash={login_script} param1={profile} terminal=false")
         print("---")
 
@@ -215,7 +215,7 @@ def main():
     print("---")
 
     # Action buttons
-    login_script = "/Users/dan/dev/private/aws-sso-swiftbar/login.sh"
+    login_script = Path(__file__).parent / "login.sh"
 
     if seconds_remaining <= 0:
         print(f"🔐 Login to AWS SSO | bash={login_script} param1={profile} terminal=false")
