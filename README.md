@@ -21,14 +21,37 @@ Dropdown menu shows:
 - 🌐 Open AWS Console link
 - Profile switcher
 
+## Quick Installation
+
+**One-command install:**
+
+```bash
+git clone https://github.com/YOUR_USERNAME/aws-sso-swiftbar.git
+cd aws-sso-swiftbar
+./install.sh
+```
+
+The installer will:
+- ✅ Check prerequisites (Homebrew, AWS CLI, SwiftBar)
+- ✅ Install SwiftBar if needed
+- ✅ Set up the plugin directory
+- ✅ Configure SwiftBar
+- ✅ Test the installation
+
+That's it! Look for the ☁️ icon in your menu bar.
+
+---
+
 ## Prerequisites
 
 - macOS
-- [SwiftBar](https://swiftbar.app/) installed
+- [Homebrew](https://brew.sh/)
 - AWS CLI configured with SSO profiles
-- Homebrew-installed AWS CLI at `/opt/homebrew/bin/aws`
+- (Optional) [SwiftBar](https://swiftbar.app/) - the installer can install this for you
 
-## Installation
+## Manual Installation
+
+If you prefer to install manually or the automatic installer doesn't work:
 
 ### 1. Install SwiftBar
 
@@ -36,13 +59,11 @@ Dropdown menu shows:
 brew install swiftbar
 ```
 
-### 2. Clone or copy this repository
+### 2. Clone this repository
 
 ```bash
-# If you have this repo:
-cd ~/dev/private/aws-sso-swiftbar
-
-# Or download the files manually to any directory
+git clone https://github.com/YOUR_USERNAME/aws-sso-swiftbar.git
+cd aws-sso-swiftbar
 ```
 
 ### 3. Create SwiftBar plugin directory
@@ -51,16 +72,16 @@ cd ~/dev/private/aws-sso-swiftbar
 mkdir -p ~/.swiftbar-plugins
 ```
 
-### 4. Create symlinks to SwiftBar plugin directory
+### 4. Install plugin files
 
 ```bash
-# Link the main plugin
-ln -s ~/dev/private/aws-sso-swiftbar/aws-sso-status.10s.py ~/.swiftbar-plugins/
+# Option A: Symlink (changes in repo reflect immediately)
+ln -sf "$(pwd)/aws-sso-status.10s.py" ~/.swiftbar-plugins/
+ln -sf "$(pwd)/login.sh" ~/.swiftbar-plugins/
 
-# Link the login helper scripts
-ln -s ~/dev/private/aws-sso-swiftbar/login-prod.sh ~/.swiftbar-plugins/
-ln -s ~/dev/private/aws-sso-swiftbar/login-backend.sh ~/.swiftbar-plugins/
-ln -s ~/dev/private/aws-sso-swiftbar/login-dev.sh ~/.swiftbar-plugins/
+# Option B: Copy (standalone installation)
+cp aws-sso-status.10s.py login.sh ~/.swiftbar-plugins/
+chmod +x ~/.swiftbar-plugins/*.{py,sh}
 ```
 
 ### 5. Configure SwiftBar
@@ -83,38 +104,25 @@ The plugin defaults to the `prod` profile. Your selected profile is saved in `~/
 
 ### Adding More Profiles
 
-If you have additional AWS SSO profiles:
+The plugin automatically works with any AWS SSO profile configured in your `~/.aws/config`. Just:
+1. Add the profile to your AWS config
+2. Switch to it via the "Switch Profile" menu
+3. Click "Refresh Session" when needed
 
-1. Create a new login script:
-   ```bash
-   cat > ~/dev/private/aws-sso-swiftbar/login-YOURPROFILE.sh << 'EOF'
-   #!/bin/bash
-   open -a Terminal && sleep 0.5 && osascript -e 'tell application "Terminal" to do script "/opt/homebrew/bin/aws sso login --profile YOURPROFILE"'
-   EOF
-   ```
-
-2. Make it executable:
-   ```bash
-   chmod +x ~/dev/private/aws-sso-swiftbar/login-YOURPROFILE.sh
-   ```
-
-3. Symlink it to the plugin directory:
-   ```bash
-   ln -s ~/dev/private/aws-sso-swiftbar/login-YOURPROFILE.sh ~/.swiftbar-plugins/
-   ```
-
-4. Restart SwiftBar
+No additional configuration required!
 
 ### Custom AWS CLI Path
 
-If your AWS CLI is not at `/opt/homebrew/bin/aws`, edit the login scripts to point to the correct path:
+If your AWS CLI is not at `/opt/homebrew/bin/aws`, edit `login.sh` and update the path:
 
 ```bash
 # Find your AWS CLI path
 which aws
 
-# Edit each login-*.sh script and update the path
+# Edit login.sh and update the path
 ```
+
+The installer does this automatically for you.
 
 ## Usage
 
@@ -215,10 +223,9 @@ Check that the `refresh=true` parameter is in the profile buttons. The menu bar 
 ```
 aws-sso-swiftbar/
 ├── README.md                    # This file
+├── install.sh                   # One-command installer
 ├── aws-sso-status.10s.py        # Main plugin (Python)
-├── login-prod.sh                # Login helper for prod profile
-├── login-backend.sh             # Login helper for backend profile
-└── login-dev.sh                 # Login helper for dev profile
+└── login.sh                     # Generic login helper for all profiles
 ```
 
 ## How It Works
