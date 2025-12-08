@@ -143,7 +143,7 @@ def format_datetime(iso_string):
     try:
         dt = datetime.fromisoformat(iso_string.replace('Z', '+00:00'))
         local_dt = dt.astimezone()
-        return local_dt.strftime("%b %d, %Y %I:%M:%S %p")
+        return local_dt.strftime("%b %d, %Y %H:%M")
     except:
         return iso_string
 
@@ -217,15 +217,11 @@ def main():
     # Action buttons
     login_script = Path(__file__).parent / "login.sh"
 
+    # Always show refresh button (enabled)
     if seconds_remaining <= 0:
         print(f"🔐 Login to AWS SSO | bash={login_script} param1={profile} terminal=false")
-    elif seconds_remaining < 1800:  # Less than 30 minutes
+    else:
         print(f"🔐 Refresh Session | bash={login_script} param1={profile} terminal=false")
-    elif seconds_remaining < 7200:  # 30 min - 2 hours
-        print(f"🔐 Refresh Session | bash={login_script} param1={profile} terminal=false")
-    else:  # More than 2 hours remaining
-        hours_left = int(seconds_remaining // 3600)
-        print(f"🔐 Refresh Session | disabled=true tooltip='Session still valid for {hours_left}+ hours. Refresh not needed yet.'")
 
     # AWS Console link
     region = token_data.get("region", "us-east-1")
