@@ -88,26 +88,22 @@ def find_sso_token(profile_name):
     if not cache_dir.exists():
         return None
 
-    cache_key = get_sso_cache_key(sso_start_url)
-    cache_file = cache_dir / f"{cache_key}.json"
-
-    if cache_file.exists():
-        try:
-            with open(cache_file, 'r') as f:
-                data = json.load(f)
-                return data
-        except (json.JSONDecodeError, IOError):
-            pass
-
-    # Fallback: search all cache files for matching startUrl
+    # Search all cache files for matching startUrl and get the most recent one
+    matching_tokens = []
     for cache_file in cache_dir.glob("*.json"):
         try:
             with open(cache_file, 'r') as f:
                 data = json.load(f)
-                if data.get("startUrl") == sso_start_url:
-                    return data
+                if data.get("startUrl") == sso_start_url and "expiresAt" in data:
+                    # Store token data along with file modification time
+                    matching_tokens.append((cache_file.stat().st_mtime, data))
         except (json.JSONDecodeError, IOError):
             continue
+
+    # Return the most recently modified token
+    if matching_tokens:
+        matching_tokens.sort(key=lambda x: x[0], reverse=True)
+        return matching_tokens[0][1]
 
     return None
 
