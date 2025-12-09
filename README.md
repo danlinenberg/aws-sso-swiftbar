@@ -64,7 +64,7 @@ brew install swiftbar
 ### 2. Clone this repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/aws-sso-swiftbar.git
+git clone https://github.com/danlinenberg/aws-sso-swiftbar.git
 cd aws-sso-swiftbar
 ```
 
